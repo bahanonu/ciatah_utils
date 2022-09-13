@@ -44,6 +44,7 @@ function Answer=inputdlgcol(Prompt, Title, NumLines, DefAns,Resize,NumCols)
 %     AddOpts.Resize='on';
 %     AddOpts.WindowStyle='normal';
 %     AddOpts.Interpreter='tex';
+%     AddOpts.DlgSize=[800 100]; % [height width]
 %     answer=inputdlgcol(prompt,dlgTitle,lineNo,def,AddOpts);
 %
 %     prompt={'Enter your first name:','Enter your street address:',...
@@ -63,6 +64,7 @@ function Answer=inputdlgcol(Prompt, Title, NumLines, DefAns,Resize,NumCols)
 %  Copyright 1998-2002 The MathWorks, Inc.
 %  $Revision: 1.58 $
 % 2019.07.09 [21:17:16] - Resize input dlg
+% 2022.09.13 [07:45:31] - Add fig width/height input options.
 
 %%%%%%%%%%%%%%%%%%%%%
 %%% General Info. %%%
@@ -82,7 +84,6 @@ if nargin == 1 & nargout == 0,
     return
   end
 end
-
 %********************** EDITTED ************
 % Change the number of maximum inputs to 6
 error(nargchk(1,6,nargin));
@@ -111,6 +112,7 @@ Interpreter='none';
 if nargin<=4,
   Resize = 'off';
 end
+DlgSize = [800 100];
 
 %********************** EDITTED ************
 % Set up sizes for 5 and 6 inputs
@@ -118,6 +120,9 @@ if nargin>=5
     if isstruct(Resize),
         Interpreter=Resize.Interpreter;
         WindowStyle=Resize.WindowStyle;
+		if isfield(Resize,'DlgSize')
+			DlgSize = Resize.DlgSize;
+		end
         Resize=Resize.Resize;
     end
 end
@@ -158,7 +163,8 @@ end
 %%% Create InputFig %%%
 %%%%%%%%%%%%%%%%%%%%%%%
 % FigWidth=300;FigHeight=100;
-FigWidth=800;FigHeight=100;
+% FigWidth=1200;FigHeight=100;
+FigWidth=DlgSize(1);FigHeight=DlgSize(2);
 FigPos(3:4)=[FigWidth FigHeight];
 FigColor=get(0,'Defaultuicontrolbackgroundcolor');
 TextForeground = Black;
@@ -178,7 +184,8 @@ InputFig=dialog(                               ...
                'WindowStyle'     ,WindowStyle, ...
                'Resize'          ,Resize       ...
                );
-
+% set(InputFig,'ButtonDownFcn',@(src,event)LocalResizeFcn(InputFig));
+% set(InputFig,'ResizeFcn',@(src,event)inputdlg('InputDlgResizeCB'));
 
 %%%%%%%%%%%%%%%%%%%%%
 %%% Set Positions %%%

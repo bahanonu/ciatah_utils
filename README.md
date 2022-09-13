@@ -6,9 +6,9 @@
 # ciatah_utils
 Utilities and external programs/packages for CIAtah.
 
-    - File Exchange functions
-    - TurboReg motion correction C and mex code.
-    - Additional code will be updated as needed.
+- MATLAB File Exchange (https://www.mathworks.com/matlabcentral/fileexchange/) functions.
+- TurboReg motion correction C and mex code.
+- Additional code will be updated as needed.
 
 ## Full documentation of CIAtah at https://bahanonu.github.io/ciatah/.
 
